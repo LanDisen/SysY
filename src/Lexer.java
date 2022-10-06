@@ -6,7 +6,7 @@ import java.util.Vector;
 
 @SuppressWarnings({"all"})
 public class Lexer {
-    public HashMap<String, TokenType> keywords = new HashMap<>();
+
     Vector<Token> tokens = new Vector<>();
     public String src = "";
     public int begin = 0;
@@ -27,7 +27,7 @@ public class Lexer {
             int c;
             while ((c = fileReader.read()) != -1)
                 src += (char) c;
-            initKeywords();
+            Token.initKeywords();
             scan();
         } catch (IOException e) {
             System.out.println("源文件打开失败");
@@ -117,7 +117,7 @@ public class Lexer {
         while (Character.isLetterOrDigit(peek()) || peek()=='_')
             moveForward();
         String word = src.substring(begin, curr);
-        TokenType type = keywords.get(word);
+        TokenType type = Token.keywords.get(word);
         if (type == null) {
             type = TokenType.ID;
         }
@@ -147,31 +147,5 @@ public class Lexer {
         TokenType type = TokenType.ERROR;
         String word = src.substring(begin, curr);
         tokens.add(new Token(type, word));
-    }
-
-    void initKeywords() {
-        //keywords
-        keywords.put("and", TokenType.AND);
-        keywords.put("or", TokenType.OR);
-        keywords.put("if", TokenType.IF);
-        keywords.put("else", TokenType.ELSE);
-        keywords.put("return", TokenType.RETURN);
-        keywords.put("true", TokenType.TRUE);
-        keywords.put("false", TokenType.FALSE);
-        keywords.put("for", TokenType.FOR);
-        keywords.put("while", TokenType.WHILE);
-        keywords.put("do", TokenType.DO);
-        keywords.put("break", TokenType.BREAK);
-        keywords.put("continue", TokenType.CONTINUE);
-        keywords.put("const", TokenType.CONST);
-        keywords.put("case", TokenType.CASE);
-        keywords.put("switch", TokenType.SWITCH);
-        //data type
-        keywords.put("int", TokenType.INT);
-        keywords.put("float", TokenType.FLOAT);
-        keywords.put("void", TokenType.VOID);
-        keywords.put("bool", TokenType.BOOL);
-        keywords.put("char", TokenType.CHAR);
-        keywords.put("string", TokenType.STRING);
     }
 }

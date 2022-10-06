@@ -1,10 +1,40 @@
+import java.util.HashMap;
+
 public class Token {
     public TokenType type;
     public String word;
 
+    public static HashMap<String, TokenType> keywords = new HashMap<>();
+
     public Token(TokenType type, String word) {
         this.type = type;
         this.word = word;
+    }
+
+    static void initKeywords() {
+        //keywords
+        keywords.put("and", TokenType.AND);
+        keywords.put("or", TokenType.OR);
+        keywords.put("if", TokenType.IF);
+        keywords.put("else", TokenType.ELSE);
+        keywords.put("return", TokenType.RETURN);
+        keywords.put("true", TokenType.TRUE);
+        keywords.put("false", TokenType.FALSE);
+        keywords.put("for", TokenType.FOR);
+        keywords.put("while", TokenType.WHILE);
+        keywords.put("do", TokenType.DO);
+        keywords.put("break", TokenType.BREAK);
+        keywords.put("continue", TokenType.CONTINUE);
+        keywords.put("const", TokenType.CONST);
+        keywords.put("case", TokenType.CASE);
+        keywords.put("switch", TokenType.SWITCH);
+        //data type
+        keywords.put("int", TokenType.INT);
+        keywords.put("float", TokenType.FLOAT);
+        keywords.put("void", TokenType.VOID);
+        keywords.put("bool", TokenType.BOOL);
+        keywords.put("char", TokenType.CHAR);
+        keywords.put("string", TokenType.STRING);
     }
 
     @Override
