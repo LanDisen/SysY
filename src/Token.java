@@ -61,5 +61,6 @@ enum TokenType {
     BREAK, CONTINUE, CONST, CASE, SWITCH,
     //数据类型
     INT, FLOAT, VOID, BOOL, CHAR, STRING,
-    ID, NUM, ERROR //identifier
+    ID, NUM, ERROR,  //identifier
+    END
 }
