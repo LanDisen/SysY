@@ -12,14 +12,6 @@ public class Lexer {
     public int begin = 0;
     public int curr = 0;
 
-    public static void main(String[] args) {
-        File file = new File("res\\id.txt");
-        Lexer lexer = new Lexer(file);
-        for (Token token: lexer.tokens) {
-            System.out.println(token);
-        }
-    }
-
     Lexer(File file) {
         FileReader fileReader = null;
         try {
