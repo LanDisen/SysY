@@ -138,12 +138,6 @@ public class Lexer {
     }
 
     void error() {
-//        char c;
-//        while (true) {
-//            c = peek();
-//            if (isBlank(c)) break;
-//            moveForward();
-//        }
         TokenType type = TokenType.ERROR;
         String word = src.substring(begin, curr);
         tokens.add(new Token(type, word));
