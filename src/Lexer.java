@@ -36,6 +36,8 @@ public class Lexer {
                 case '*' -> tokens.add(new Token(TokenType.STAR, "*"));
                 case '/' -> tokens.add(new Token(TokenType.SLASH, "/"));
                 case '\\' -> tokens.add(new Token(TokenType.BACKSLASH, "\\"));
+                case '(' -> tokens.add(new Token(TokenType.LEFT_BRACKET, "("));
+                case ')' -> tokens.add(new Token(TokenType.RIGHT_BRACKET, ")"));
                 case '=' -> {
                     Token token = new Token(TokenType.EQUAL, "=");
                     if (peek() == '=') {
@@ -68,6 +70,7 @@ public class Lexer {
                 case ':' -> tokens.add(new Token(TokenType.COLON, ":"));
                 case '?' -> tokens.add(new Token(TokenType.QUESTION, "?"));
                 case '!' -> tokens.add(new Token(TokenType.EXCLAMATION, "!"));
+                case ';' -> tokens.add(new Token(TokenType.SEMICOLON, ";"));
                 default -> {
                     if (isBlank(c))
                         break;
