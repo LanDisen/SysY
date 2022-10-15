@@ -3,12 +3,14 @@ import java.util.HashMap;
 public class Token {
     public TokenType type;
     public String word;
+    final int line;
 
     public static HashMap<String, TokenType> keywords = new HashMap<>();
 
-    public Token(TokenType type, String word) {
+    public Token(TokenType type, String word, int line) {
         this.type = type;
         this.word = word;
+        this.line = line;
     }
 
     static void initKeywords() {
