@@ -5,6 +5,8 @@ interface ExprVisitor {
     public Object visitOptBinaryExpr(OptBinaryExpr expr);
     public Object visitBinaryExpr(BinaryExpr expr);
     public Object visitExpressionExpr(ExpressionExpr expr);
+    public Object visitNumberExpr(NumberExpr expr);
+    public Object visitNullExpr(NullExpr expr);
 
 }
 
@@ -25,6 +27,11 @@ class OptBinaryExpr extends Expr {
         return visitor.visitOptBinaryExpr(this);
     }
 
+    @Override
+    public String toString() {
+        return left + " " + op + " " + right;
+    }
+
     final Expr left;
     final Token op;
     final Expr right;
@@ -38,6 +45,11 @@ class BinaryExpr extends Expr {
     @Override
     Object accept(ExprVisitor visitor) {
         return visitor.visitBinaryExpr(this);
+    }
+
+    @Override
+    public String toString() {
+        return e1 + " " + e2;
     }
     final Expr e1;
     final Expr e2;
@@ -53,5 +65,39 @@ class ExpressionExpr extends Expr {
         return visitor.visitExpressionExpr(this);
     }
 
+    @Override
+    public String toString() {
+        return expression.toString();
+    }
+
     final Expr expression;
+}
+
+class NumberExpr extends Expr {
+    NumberExpr(String number) {
+        this.number = number;
+    }
+    @Override
+    Object accept(ExprVisitor visitor) {
+        return visitor.visitNumberExpr(this);
+    }
+
+    @Override
+    public String toString() {
+        return number;
+    }
+
+    final String number;
+}
+
+class NullExpr extends Expr {
+    @Override
+    Object accept(ExprVisitor visitor) {
+        return visitor.visitNullExpr(this);
+    }
+
+    @Override
+    public String toString() {
+        return ""; //ε
+    }
 }

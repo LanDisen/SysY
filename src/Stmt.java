@@ -11,6 +11,10 @@ class ExpressionStmt extends Stmt {
     ExpressionStmt(Expr expression) {
         this.expression = expression;
     }
+    @Override
+    public String toString() {
+        return expression.toString();
+    }
 
     @Override
     Object accept(StmtVisitor visitor) {
