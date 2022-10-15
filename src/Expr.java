@@ -13,6 +13,7 @@ interface ExprVisitor {
 
 public abstract class Expr {
     abstract Object accept(ExprVisitor visitor);
+    boolean hasError = false;
 }
 
 class OptBinaryExpr extends Expr {
@@ -20,6 +21,8 @@ class OptBinaryExpr extends Expr {
         this.op = op;
         this.left = left;
         this.right = right;
+        if (left.hasError || right.hasError)
+            this.hasError = true;
     }
 
     @Override
@@ -41,6 +44,8 @@ class BinaryExpr extends Expr {
     BinaryExpr(Expr e1, Expr e2) {
         this.e1 = e1;
         this.e2 = e2;
+        if (e1.hasError || e2.hasError)
+            this.hasError = true;
     }
     @Override
     Object accept(ExprVisitor visitor) {
@@ -58,6 +63,8 @@ class BinaryExpr extends Expr {
 class ExpressionExpr extends Expr {
     ExpressionExpr(Expr expression) {
         this.expression = expression;
+        if (expression.hasError)
+            this.hasError = true;
     }
 
     @Override

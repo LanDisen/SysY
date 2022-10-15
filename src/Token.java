@@ -43,7 +43,7 @@ public class Token {
 
     @Override
     public String toString() {
-        return "(" + type + " " + word + ")";
+        return word;
     }
 }
 

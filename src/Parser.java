@@ -19,8 +19,12 @@ public class Parser {
         while (!isParseOver()) {
             //System.out.println(curr);
             ExpressionStmt expressionStmt = new ExpressionStmt(expression());
-            if (match(TokenType.SEMICOLON)) {
+            if (!expressionStmt.hasError) {
                 statements.add(expressionStmt);
+                System.out.println(expressionStmt);
+            }
+            if (!match(TokenType.SEMICOLON)) {
+                new Error(peek(), "expect ';' here");
             }
         }
     }
@@ -65,6 +69,7 @@ public class Parser {
     }
 
     //factor  ->  "(" expression ")" | NUMBER
+    //TODO 括号应被添加到expr内，后续再利用语法树进行优先级分析
     Expr factor() {
         Expr expr = new NullExpr();
         if (match(TokenType.LEFT_BRACKET)) {
@@ -74,6 +79,9 @@ public class Parser {
             }
         } else if (match(TokenType.NUM)) {
             expr = new NumberExpr(getPrev().word);
+        } else {
+            expr.hasError = true;
+            new Error(peek(), "this is not a valid arithmetic expression.");
         }
         return expr;
     }
