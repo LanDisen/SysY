@@ -29,7 +29,7 @@ class OptBinaryExpr extends Expr {
 
     @Override
     public String toString() {
-        return left + " " + op + " " + right;
+        return op + " " + left + " " + right;
     }
 
     final Expr left;

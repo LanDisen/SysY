@@ -8,5 +8,6 @@ public class SysY {
     static void run(File file) {
         Lexer lexer = new Lexer(file);
         Parser parser = new Parser(lexer.tokens);
+        //System.out.println("SysY运行结束");
     }
 }

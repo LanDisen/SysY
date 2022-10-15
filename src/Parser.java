@@ -12,18 +12,21 @@ import java.util.Vector;
 public class Parser {
     Parser(final Vector<Token> tokens) {
         this.tokens = tokens;
+        parse();
     }
 
-    Vector<Stmt> parse() {
-        Vector<Stmt> statements = new Vector<>();
+    void parse() {
         while (!isParseOver()) {
-            //statements.add();
+            //System.out.println(curr);
+            ExpressionStmt expressionStmt = new ExpressionStmt(expression());
+            if (match(TokenType.SEMICOLON)) {
+                statements.add(expressionStmt);
+            }
         }
-        return statements;
     }
 
     Expr expression() {
-        Expr expr = null;
+        Expr expr = new NullExpr();
         Expr termExpr = term();
         Expr expression1Expr = expression1();
         expr = new BinaryExpr(termExpr, expression1Expr);
@@ -31,8 +34,8 @@ public class Parser {
     }
 
     Expr expression1() {
-        Expr expr = null;
-        while (match(TokenType.PLUS) || match(TokenType.MINUS)) {
+        Expr expr = new NullExpr();
+        if (match(TokenType.PLUS) || match(TokenType.MINUS)) {
             Token opt = getPrev();
             Expr termExpr = term();
             Expr expression1Expr = expression1();
@@ -42,7 +45,7 @@ public class Parser {
     }
 
     Expr term() {
-        Expr expr = null;
+        Expr expr = new NullExpr();
         Expr factorExpr = factor();
         Expr term1Expr = term1();
         expr = new BinaryExpr(factorExpr, term1Expr);
@@ -50,9 +53,9 @@ public class Parser {
     }
 
     Expr term1() {
-        Expr expr = null;
+        Expr expr = new NullExpr();
         //匹配"*"|"/"
-        while (match(TokenType.STAR) || match(TokenType.SLASH)) {
+        if (match(TokenType.STAR) || match(TokenType.SLASH)) {
             Token opt = getPrev();
             Expr termExpr = term();
             Expr expression1Expr = expression1();
@@ -63,12 +66,14 @@ public class Parser {
 
     //factor  ->  "(" expression ")" | NUMBER
     Expr factor() {
-        Expr expr = null;
-        while (match(TokenType.LEFT_BRACKET)) {
+        Expr expr = new NullExpr();
+        if (match(TokenType.LEFT_BRACKET)) {
             Expr expressionExpr = expression();
-            while (match(TokenType.RIGHT_BRACKET)) {
+            if (match(TokenType.RIGHT_BRACKET)) {
                 expr = new ExpressionExpr(expressionExpr);
             }
+        } else if (match(TokenType.NUM)) {
+            expr = new NumberExpr(getPrev().word);
         }
         return expr;
     }
@@ -87,15 +92,20 @@ public class Parser {
     }
 
     boolean isParseOver() {
+        if (curr >= tokens.size()) return true;
         return peek().type == TokenType.END;
     }
 
     boolean match(TokenType type) {
         if (isParseOver()) return false;
-        //moveForward();
-        return peek().type == type;
+        if (peek().type == type) {
+            moveForward();
+            return true;
+        }
+        return false;
     }
 
     Vector<Token> tokens;
+    Vector<Stmt> statements = new Vector<>();
     int curr = 0;
 }
