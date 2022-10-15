@@ -4,13 +4,15 @@ public class Token {
     public TokenType type;
     public String word;
     final int line;
+    final int column;
 
     public static HashMap<String, TokenType> keywords = new HashMap<>();
 
-    public Token(TokenType type, String word, int line) {
+    public Token(TokenType type, String word, int line, int column) {
         this.type = type;
         this.word = word;
         this.line = line;
+        this.column = column;
     }
 
     static void initKeywords() {

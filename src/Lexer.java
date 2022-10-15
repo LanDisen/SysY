@@ -11,7 +11,8 @@ public class Lexer {
     public String src = "";
     public int begin = 0;
     public int curr = 0;
-    public int line = 1; //统计文件行数
+    public int line = 1;   //统计文件行数
+    public int colomn = 0; //统计Token在当前行的位置
 
     Lexer(File file) {
         FileReader fileReader = null;
@@ -32,15 +33,15 @@ public class Lexer {
             begin = curr;
             char c = moveForward();
             switch (c) {
-                case '+' -> tokens.add(new Token(TokenType.PLUS, "+", line));
-                case '-' -> tokens.add(new Token(TokenType.MINUS, "-", line));
-                case '*' -> tokens.add(new Token(TokenType.STAR, "*", line));
-                case '/' -> tokens.add(new Token(TokenType.SLASH, "/", line));
-                case '\\' -> tokens.add(new Token(TokenType.BACKSLASH, "\\", line));
-                case '(' -> tokens.add(new Token(TokenType.LEFT_BRACKET, "(", line));
-                case ')' -> tokens.add(new Token(TokenType.RIGHT_BRACKET, ")", line));
+                case '+' -> tokens.add(new Token(TokenType.PLUS, "+", line, colomn++));
+                case '-' -> tokens.add(new Token(TokenType.MINUS, "-", line, colomn++));
+                case '*' -> tokens.add(new Token(TokenType.STAR, "*", line, colomn++));
+                case '/' -> tokens.add(new Token(TokenType.SLASH, "/", line, colomn++));
+                case '\\' -> tokens.add(new Token(TokenType.BACKSLASH, "\\", line, colomn++));
+                case '(' -> tokens.add(new Token(TokenType.LEFT_BRACKET, "(", line, colomn++));
+                case ')' -> tokens.add(new Token(TokenType.RIGHT_BRACKET, ")", line, colomn++));
                 case '=' -> {
-                    Token token = new Token(TokenType.EQUAL, "=", line);
+                    Token token = new Token(TokenType.EQUAL, "=", line, colomn++);
                     if (peek() == '=') {
                         token.type = TokenType.EQUAL_EQUAL;
                         token.word = "==";
@@ -49,7 +50,7 @@ public class Lexer {
                     tokens.add(token);
                 }
                 case '>' -> {
-                    Token token = new Token(TokenType.GREATER, ">", line);
+                    Token token = new Token(TokenType.GREATER, ">", line, colomn++);
                     if (peek() == '=') {
                         token.type = TokenType.GREATER_EQUAL;
                         token.word = ">=";
@@ -58,7 +59,7 @@ public class Lexer {
                     tokens.add(token);
                 }
                 case '<' -> {
-                    Token token = new Token(TokenType.LESS, "<=>", line);
+                    Token token = new Token(TokenType.LESS, "<=>", line, colomn++);
                     if (peek() == '=') {
                         token.type = TokenType.LESS_EQUAL;
                         token.word = "<=";
@@ -66,15 +67,15 @@ public class Lexer {
                     }
                     tokens.add(token);
                 }
-                case ',' -> tokens.add(new Token(TokenType.COMMA, ",", line));
-                case '.' -> tokens.add(new Token(TokenType.DOT, ".", line));
-                case ':' -> tokens.add(new Token(TokenType.COLON, ":", line));
-                case '?' -> tokens.add(new Token(TokenType.QUESTION, "?", line));
-                case '!' -> tokens.add(new Token(TokenType.EXCLAMATION, "!", line));
-                case ';' -> tokens.add(new Token(TokenType.SEMICOLON, ";", line));
+                case ',' -> tokens.add(new Token(TokenType.COMMA, ",", line, colomn++));
+                case '.' -> tokens.add(new Token(TokenType.DOT, ".", line, colomn++));
+                case ':' -> tokens.add(new Token(TokenType.COLON, ":", line, colomn++));
+                case '?' -> tokens.add(new Token(TokenType.QUESTION, "?", line, colomn++));
+                case '!' -> tokens.add(new Token(TokenType.EXCLAMATION, "!", line, colomn++));
+                case ';' -> tokens.add(new Token(TokenType.SEMICOLON, ";", line, colomn++));
                 default -> {
                     if (isNewLine(c)) {
-                        line++; break;
+                        line++; colomn = 0; break;
                     }
                     if (isBlank(c))
                         break;
@@ -124,7 +125,7 @@ public class Lexer {
         if (type == null) {
             type = TokenType.ID;
         }
-        tokens.add(new Token(type, word, line));
+        tokens.add(new Token(type, word, line, colomn++));
     }
 
     void number() {
@@ -137,12 +138,12 @@ public class Lexer {
         }
         String word = src.substring(begin, curr);
         TokenType type = TokenType.NUM;
-        tokens.add(new Token(type, word, line));
+        tokens.add(new Token(type, word, line, colomn++));
     }
 
     void error() {
         TokenType type = TokenType.ERROR;
         String word = src.substring(begin, curr);
-        tokens.add(new Token(type, word, line));
+        tokens.add(new Token(type, word, line, colomn++));
     }
 }
