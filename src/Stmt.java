@@ -1,7 +1,4 @@
-interface StmtVisitor {
-    Object visitExpressionStmt(ExpressionStmt stmt);
-    Object visitPrintStmt(PrintStmt stmt);
-}
+
 
 public abstract class Stmt {
     abstract Object accept(StmtVisitor visitor);
