@@ -1,7 +1,7 @@
 public class Error {
     Error(final Token token, String message) {
         report(token.line, token.column, message);
-        //System.exit(-1);
+        System.exit(-1);
     }
 
     void report(int line, int column, String message) {

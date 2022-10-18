@@ -18,7 +18,6 @@ public class Parser {
             ExpressionStmt expressionStmt = new ExpressionStmt(expression());
             if (!expressionStmt.hasError) {
                 statements.add(expressionStmt);
-                System.out.println(expressionStmt); //test
             }
             if (!match(TokenType.SEMICOLON)) {
                 new Error(peek(), "expect ';' here");

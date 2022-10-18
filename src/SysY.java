@@ -4,7 +4,7 @@ import java.io.File;
 
 public class SysY {
     public static void main(String[] args) {
-        run(new File("res\\expression.txt"));
+        run(new File("res\\testExpr.txt"));
     }
 
     static void run(File file) {
