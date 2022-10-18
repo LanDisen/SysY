@@ -9,10 +9,11 @@ import java.util.Vector;
  * term'       ->  ("*"|"/") factor term' | ε
  * factor      ->  "(" expression ")" | NUMBER
  * 以上文法构造语法树进行语义分析比较困难
+ *
  * 试图构造新文法便于扩展，理想：NUMBER op NUMBER
- * expression  ->  term ("+"|"-") term
- * term        ->  primary ("*"|"/") primary
- * primary     -> "(" expression ")" | NUMBER
+ * expression  ->  term ( ("+"|"-") term )*
+ * term        ->  factor ( ("*"|"/") factor )*
+ * factor      ->  "(" expression ")" | NUMBER
  */
 public class Parser {
     Parser(final Vector<Token> tokens) {
@@ -75,7 +76,6 @@ public class Parser {
     }
 
     //factor  ->  "(" expression ")" | NUMBER
-    //TODO 括号应被添加到expr内，后续再利用语法树进行优先级分析
     Expr factor() {
         Expr expr = new NullExpr();
         if (match(TokenType.LEFT_BRACKET)) {
@@ -94,7 +94,55 @@ public class Parser {
     */
 
     void parse() {
+        while (!isParseOver()) {
+            ExpressionStmt expressionStmt = new ExpressionStmt(expression());
+            if (!expressionStmt.hasError) {
+                statements.add(expressionStmt);
+                System.out.println(expressionStmt); //test
+            }
+            if (!match(TokenType.SEMICOLON)) {
+                new Error(peek(), "expect ';' here");
+            }
+        }
+    }
 
+    Expr expression() {
+        Expr term = term();
+        while (match(TokenType.PLUS) || match(TokenType.MINUS)) {
+            Token op = getPrev();
+            Expr term2 = term();
+            term = new BinaryExpr(term, op, term2);
+        }
+        return term;
+    }
+
+    Expr term() {
+        Expr factor = factor();
+        while (match(TokenType.STAR) || match(TokenType.SLASH)) {
+            Token op = getPrev();
+            Expr factor2 = factor();
+            factor = new BinaryExpr(factor, op, factor2);
+        }
+        return factor;
+    }
+
+    Expr factor() {
+        Expr expr = new NullExpr();
+        if (match(TokenType.LEFT_BRACKET)) {
+            expr = expression();
+            if (match(TokenType.RIGHT_BRACKET)) {
+                //expr = new ExpressionExpr(expr, true);
+            } else {
+                expr.hasError = true;
+                new Error(peek(), "expect ')' here");
+            }
+        } else if (match(TokenType.NUM)) {
+            expr = new NumberExpr(getPrev().word);
+        } else {
+            expr.hasError = true;
+            new Error(peek(), "this is not a valid arithmetic expression");
+        }
+        return expr;
     }
 
     Token peek() {
