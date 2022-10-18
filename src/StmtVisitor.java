@@ -1,2 +1,4 @@
-package PACKAGE_NAME;public interface StmtVisitor {
+interface StmtVisitor {
+    Object visitExpressionStmt(ExpressionStmt stmt);
+    Object visitPrintStmt(PrintStmt stmt);
 }
