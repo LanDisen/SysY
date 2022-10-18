@@ -32,7 +32,7 @@ class OptBinaryExpr extends Expr {
 
     @Override
     public String toString() {
-        return op + " " + left + " " + right;
+        return op + left.toString() + right.toString();
     }
 
     final Expr left;
@@ -54,15 +54,23 @@ class BinaryExpr extends Expr {
 
     @Override
     public String toString() {
-        return e1 + " " + e2;
+        return e1.toString() + e2.toString();
     }
     final Expr e1;
     final Expr e2;
 }
 
 class ExpressionExpr extends Expr {
-    ExpressionExpr(Expr expression) {
+    ExpressionExpr(Expr expression, boolean hasBrackets) {
         this.expression = expression;
+        this.hasBracket = hasBrackets;
+        if (hasBrackets) {
+            lBracket= "(";
+            rBracket = ")";
+        } else {
+            lBracket = null;
+            rBracket = null;
+        }
         if (expression.hasError)
             this.hasError = true;
     }
@@ -74,10 +82,16 @@ class ExpressionExpr extends Expr {
 
     @Override
     public String toString() {
+        if (hasBracket) {
+            return "(" + expression.toString() + ")";
+        }
         return expression.toString();
     }
 
     final Expr expression;
+    final boolean hasBracket;
+    final String lBracket;
+    final String rBracket;
 }
 
 class NumberExpr extends Expr {

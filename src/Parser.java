@@ -75,7 +75,7 @@ public class Parser {
         if (match(TokenType.LEFT_BRACKET)) {
             Expr expressionExpr = expression();
             if (match(TokenType.RIGHT_BRACKET)) {
-                expr = new ExpressionExpr(expressionExpr);
+                expr = new ExpressionExpr(expressionExpr, true);
             }
         } else if (match(TokenType.NUM)) {
             expr = new NumberExpr(getPrev().word);
