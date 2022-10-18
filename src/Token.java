@@ -39,6 +39,8 @@ public class Token {
         keywords.put("bool", TokenType.BOOL);
         keywords.put("char", TokenType.CHAR);
         keywords.put("string", TokenType.STRING);
+        keywords.put("print", TokenType.PRINT);
+        keywords.put("println", TokenType.PRINTLN);
     }
 
     @Override
@@ -66,5 +68,6 @@ enum TokenType {
     //数据类型
     INT, FLOAT, VOID, BOOL, CHAR, STRING,
     ID, NUM, ERROR,  //identifier
+    PRINT, PRINTLN,
     END
 }

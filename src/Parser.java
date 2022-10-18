@@ -15,14 +15,45 @@ public class Parser {
 
     void parse() {
         while (!isParseOver()) {
-            ExpressionStmt expressionStmt = new ExpressionStmt(expression());
-            if (!expressionStmt.hasError) {
-                statements.add(expressionStmt);
-            }
-            if (!match(TokenType.SEMICOLON)) {
-                new Error(peek(), "expect ';' here");
-            }
+            statements.add(statement());
         }
+    }
+
+    Stmt statement() {
+        if (match(TokenType.PRINT)) return printStatement();
+        if (match(TokenType.PRINTLN)) return printStatement();
+        return expressionStatement();
+    }
+
+    Stmt printStatement() {
+        Stmt printStmt = null;
+        boolean hasLn = false;
+        if (getPrev().type == TokenType.PRINTLN)
+            hasLn = true;
+        if (match(TokenType.LEFT_BRACKET)) {
+            Expr expr = expression();
+            if (match(TokenType.RIGHT_BRACKET)) {
+                printStmt = new PrintStmt(expr, hasLn);
+            } else {
+                new Error(peek(), "missing a ')' here");
+            }
+        } else {
+            new Error(peek(), "expect '(' after print statement");
+        }
+        if (!match(TokenType.SEMICOLON))
+            new Error(peek(), "expect ';' here");
+        return printStmt;
+    }
+
+    Stmt expressionStatement() {
+        ExpressionStmt expressionStmt = new ExpressionStmt(expression());
+        if (!expressionStmt.hasError) {
+            statements.add(expressionStmt);
+        }
+        if (!match(TokenType.SEMICOLON)) {
+            new Error(peek(), "expect ';' here");
+        }
+        return expressionStmt;
     }
 
     Expr expression() {

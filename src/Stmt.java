@@ -1,3 +1,8 @@
+/**
+ * statement  ->  expressionStmt
+ *              | printStmt
+ * printStmt  -> "print" "("expression")"
+ */
 
 
 public abstract class Stmt {
