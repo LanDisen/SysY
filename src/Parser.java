@@ -8,6 +8,11 @@ import java.util.Vector;
  * term        ->  factor term'
  * term'       ->  ("*"|"/") factor term' | ε
  * factor      ->  "(" expression ")" | NUMBER
+ * 以上文法构造语法树进行语义分析比较困难
+ * 试图构造新文法便于扩展，理想：NUMBER op NUMBER
+ * expression  ->  term ("+"|"-") term
+ * term        ->  primary ("*"|"/") primary
+ * primary     -> "(" expression ")" | NUMBER
  */
 public class Parser {
     Parser(final Vector<Token> tokens) {
@@ -15,6 +20,7 @@ public class Parser {
         parse();
     }
 
+    /*
     void parse() {
         while (!isParseOver()) {
             //System.out.println(curr);
@@ -84,6 +90,11 @@ public class Parser {
             new Error(peek(), "this is not a valid arithmetic expression.");
         }
         return expr;
+    }
+    */
+
+    void parse() {
+
     }
 
     Token peek() {
