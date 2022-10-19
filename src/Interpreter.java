@@ -9,8 +9,6 @@ public class Interpreter implements ExprVisitor, StmtVisitor{
     void interpret(final Vector<Stmt> statements) {
         for (Stmt statement: statements) {
             execute(statement);
-            //ExpressionStmt stmt = (ExpressionStmt) statement;
-            //System.out.println(stringify(evaluate(stmt.expression)));
         }
     }
 

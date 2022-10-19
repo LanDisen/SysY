@@ -1,10 +1,3 @@
-/**
- * statement  ->  expressionStmt
- *              | printStmt
- * printStmt  -> "print" "("expression")"
- */
-
-
 public abstract class Stmt {
     abstract Object accept(StmtVisitor visitor);
 

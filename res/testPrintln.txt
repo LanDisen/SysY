@@ -1,0 +1,6 @@
+println(1*2+3);
+println(2+5*3);
+println(5-(4/2));
+println(1+2+3+4+5);
+println(1-2+3*4-5);
+println((2.5-2)*4.5-8+12.5/5);

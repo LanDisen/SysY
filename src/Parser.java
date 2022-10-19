@@ -6,7 +6,15 @@ import java.util.Vector;
  * expression  ->  term ( ("+"|"-") term )*
  * term        ->  factor ( ("*"|"/") factor )*
  * factor      ->  "(" expression ")" | NUMBER
+ *
+ * 语句文法
+ * statement  ->  expressionStmt
+ *             |  printStmt
+ * printStmt  -> ("print"|“println“) "("expression")"
+ *
  */
+
+
 public class Parser {
     Parser(final Vector<Token> tokens) {
         this.tokens = tokens;
