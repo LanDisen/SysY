@@ -7,6 +7,21 @@ import java.util.Vector;
  * term        ->  factor ( ("*"|"/") factor )*
  * factor      ->  "(" expression ")" | NUMBER
  *
+ * 表达式文法
+ * expression  ->  assignment
+ * assignment  ->  ID "=" assignment | condition
+ * condition   ->  logic_or
+ * logic_or    ->  logic_and ("||" logic_and)*
+ * logic_and   ->  equality ("&&" equality)*
+ * equality    ->  comparison ( ("!="|"==") comparison)*
+ * comparison  ->  term ( (">"|">="|"<"|"<=") term)*
+ * term        ->  factor( ("+"|"-") factor)*
+ * factor      ->  unary ( ("*"|"/") unary )*
+ * unary       ->  ("!"|"-") unary | primary
+ * primary     ->  NUMBER | "true" | "false"
+ *              | "(" expression ")"
+ *              | ID
+ *
  * 语句文法
  * statement  ->  expressionStmt
  *             |  printStmt
@@ -74,6 +89,22 @@ public class Parser {
         return term;
     }
 
+    Expr assignment() {
+        return null;
+    }
+
+    Expr logic_or() {
+        return null;
+    }
+
+    Expr logic_and() {
+        return null;
+    }
+
+    Expr unary() {
+        return null;
+    }
+
     Expr term() {
         Expr factor = factor();
         while (match(TokenType.STAR) || match(TokenType.SLASH)) {
@@ -101,6 +132,10 @@ public class Parser {
             new Error(peek(), "this is not a valid arithmetic expression");
         }
         return expr;
+    }
+
+    Expr primary() {
+        return null;
     }
 
     Token peek() {
