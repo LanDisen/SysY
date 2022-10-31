@@ -126,6 +126,17 @@ class LogicalExpr extends Expr {
     final Expr right;
 }
 
+class PrimaryExpr extends Expr {
+    PrimaryExpr(String value) {
+        this.value = value;
+    }
+    @Override
+    Object accept(ExprVisitor visitor) {
+        return null;
+    }
+    final String value;
+}
+
 class NumberExpr extends Expr {
     NumberExpr(String number) {
         this.number = number;
