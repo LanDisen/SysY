@@ -85,5 +85,20 @@ public class Interpreter implements ExprVisitor, StmtVisitor{
         return null;
     }
 
+    @Override
+    public Object visitVarDeclStmt(VarDeclStmt stmt) {
+        return null;
+    }
+
+    @Override
+    public Object visitIfStmt(IfStmt stmt) {
+        return null;
+    }
+
+    @Override
+    public Object visitWhileStmt(WhileStmt stmt) {
+        return null;
+    }
+
     Vector<Stmt> statements;
 }
