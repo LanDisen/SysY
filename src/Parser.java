@@ -23,9 +23,12 @@ import java.util.Vector;
  *              | ID
  *
  * 语句文法
- * statement  ->  expressionStmt
- *             |  printStmt
- * printStmt  -> ("print"|“println“) "("expression")"
+ * declaration ->  varDecl
+ *              |  statement
+ * varDecl     ->  ("int"|"float") ID ("=" expression)? ";"
+ * statement   ->  expressionStmt
+ *              |  printStmt
+ * printStmt   -> ("print"|“println“) "("expression")"
  *
  */
 
@@ -125,7 +128,7 @@ public class Parser {
                 expr.hasError = true;
                 new Error(peek(), "expect ')' here");
             }
-        } else if (match(TokenType.NUM)) {
+        } else if (match(TokenType.INT) || match(TokenType.FLOAT)) {
             expr = new NumberExpr(getPrev().word);
         } else {
             expr.hasError = true;
