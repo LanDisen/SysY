@@ -129,16 +129,15 @@ public class Lexer {
     }
 
     void number() {
-        TokenType type = TokenType.INT;
         while (Character.isDigit(peek()))
             moveForward();
         if (peek() == '.') {
-            type = TokenType.FLOAT;
             moveForward();
             while (Character.isDigit(peek()))
                 moveForward();
         }
         String word = src.substring(begin, curr);
+        TokenType type = TokenType.NUM;
         tokens.add(new Token(type, word, line, colomn++));
     }
 
