@@ -65,6 +65,67 @@ class ExpressionExpr extends Expr {
     final String rBracket;
 }
 
+class UnaryExpr extends Expr {
+    UnaryExpr(Token symbol, Expr value) {
+        this.symbol = symbol;
+        this.value = value;
+    }
+    @Override
+    Object accept(ExprVisitor visitor) {
+        return visitor.visitUnaryExpr(this);
+    }
+
+    final Token symbol; //符号
+    final Expr value;
+}
+
+class VarExpr extends Expr {
+    VarExpr(Token name) {
+        this.name = name;
+    }
+    @Override
+    Object accept(ExprVisitor visitor) {
+        return visitor.visitVarExpr(this);
+    }
+    final Token name;
+    @Override
+    public String toString() {
+        return name.word;
+    }
+}
+
+class AssignExpr extends Expr {
+    AssignExpr(Token name, Expr value) {
+        this.name = name;
+        this.value = value;
+    }
+
+    @Override
+    Object accept(ExprVisitor visitor) {
+        return visitor.visitAssignExpr(this);
+    }
+
+    final Token name;
+    final Expr value;
+}
+
+class LogicalExpr extends Expr {
+    LogicalExpr(Expr left, Token op, Expr right) {
+        this.left = left;
+        this.op = op;
+        this.right = right;
+    }
+
+    @Override
+    Object accept(ExprVisitor visitor) {
+        return visitor.visitLogicalExpr(this);
+    }
+
+    final Expr left;
+    final Token op;
+    final Expr right;
+}
+
 class NumberExpr extends Expr {
     NumberExpr(String number) {
         this.number = number;
