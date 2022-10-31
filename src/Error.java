@@ -5,7 +5,7 @@ public class Error {
     }
 
     void report(int line, int column, String message) {
-        System.out.println("Error: " + message
+        System.out.println("\033[31m" + "Error: " + message
                         + " [line:" + line + ", column:" + column + "]");
     }
 }
