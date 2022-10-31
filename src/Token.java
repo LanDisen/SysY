@@ -41,6 +41,7 @@ public class Token {
         keywords.put("string", TokenType.STRING);
         keywords.put("print", TokenType.PRINT);
         keywords.put("println", TokenType.PRINTLN);
+        keywords.put("None", TokenType.NONE);
     }
 
     @Override
@@ -67,7 +68,7 @@ enum TokenType {
     BREAK, CONTINUE, CONST, CASE, SWITCH,
     //数据类型
     INT, FLOAT, VOID, BOOL, CHAR, STRING,
-    ID, NUM, ERROR,  //identifier
+    ID, NUM, ERROR, NONE,  //identifier
     PRINT, PRINTLN,
     END
 }
