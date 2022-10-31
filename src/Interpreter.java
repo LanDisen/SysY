@@ -62,6 +62,31 @@ public class Interpreter implements ExprVisitor, StmtVisitor{
     }
 
     @Override
+    public Object visitUnaryExpr(UnaryExpr expr) {
+        return null;
+    }
+
+    @Override
+    public Object visitVarExpr(VarExpr expr) {
+        return null;
+    }
+
+    @Override
+    public Object visitAssignExpr(AssignExpr expr) {
+        return null;
+    }
+
+    @Override
+    public Object visitLogicalExpr(LogicalExpr expr) {
+        return null;
+    }
+
+    @Override
+    public Object visitPrimaryExpr(PrimaryExpr expr) {
+        return null;
+    }
+
+    @Override
     public Object visitNumberExpr(NumberExpr expr) {
         return (double) Double.parseDouble(expr.number);
     }

@@ -5,7 +5,7 @@ import java.util.Scanner;
 
 public class SysY {
     public static void main(String[] args) {
-        run(new File("res\\testPrint.txt"));
+        run(new File("res\\testPrintln.txt"));
         //runFile();
     }
 
@@ -20,7 +20,6 @@ public class SysY {
         System.out.println("Please input the filename you need to run：");
         if (scanner.hasNext()) {
             String filepath = scanner.next();
-            //String filepath = scanner.next();
             run(new File(filepath));
         }
     }
