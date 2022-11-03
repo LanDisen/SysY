@@ -39,8 +39,6 @@ class ExpressionExpr extends Expr {
             lBracket = null;
             rBracket = null;
         }
-//        if (expression.hasError)
-//            this.hasError = true;
     }
 
     @Override
