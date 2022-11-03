@@ -132,16 +132,6 @@ public class Interpreter implements ExprVisitor, StmtVisitor{
     }
 
     @Override
-    public Object visitNumberExpr(NumberExpr expr) {
-        return (double) Double.parseDouble(expr.number);
-    }
-
-    @Override
-    public Object visitNullExpr(NullExpr expr) {
-        return null;
-    }
-
-    @Override
     public Object visitExpressionStmt(ExpressionStmt stmt) {
         return evaluate(stmt.expression);
     }

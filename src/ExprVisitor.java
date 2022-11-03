@@ -6,7 +6,4 @@ interface ExprVisitor {
     public Object visitAssignExpr(AssignExpr expr);
     public Object visitLogicalExpr(LogicalExpr expr);
     public Object visitPrimaryExpr(PrimaryExpr expr);
-    public Object visitNumberExpr(NumberExpr expr);
-    public Object visitNullExpr(NullExpr expr);
-
 }

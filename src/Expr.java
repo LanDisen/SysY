@@ -131,32 +131,3 @@ class PrimaryExpr extends Expr {
     }
     final String value;
 }
-
-class NumberExpr extends Expr {
-    NumberExpr(String number) {
-        this.number = number;
-    }
-    @Override
-    Object accept(ExprVisitor visitor) {
-        return visitor.visitNumberExpr(this);
-    }
-
-    @Override
-    public String toString() {
-        return number;
-    }
-
-    final String number;
-}
-
-class NullExpr extends Expr {
-    @Override
-    Object accept(ExprVisitor visitor) {
-        return visitor.visitNullExpr(this);
-    }
-
-    @Override
-    public String toString() {
-        return ""; //ε
-    }
-}
