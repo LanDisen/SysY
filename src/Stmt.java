@@ -6,8 +6,8 @@ public abstract class Stmt {
 class ExpressionStmt extends Stmt {
     ExpressionStmt(Expr expression) {
         this.expression = expression;
-        if (expression.hasError)
-            this.hasError = true;
+//        if (expression.hasError)
+//            this.hasError = true;
     }
     @Override
     public String toString() {
@@ -27,8 +27,8 @@ class PrintStmt extends Stmt {
     PrintStmt(Expr expr, boolean hasLn) {
         this.expr = expr;
         this.hasLn = hasLn;
-        if (expr.hasError)
-            this.hasError = true;
+//        if (expr.hasError)
+//            this.hasError = true;
     }
 
     @Override

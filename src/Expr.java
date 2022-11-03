@@ -4,7 +4,7 @@
 
 public abstract class Expr {
     abstract Object accept(ExprVisitor visitor);
-    boolean hasError = false;
+    //boolean hasError = false;
 }
 
 //二叉树结构的表达式，根为操作符
@@ -13,8 +13,19 @@ class BinaryExpr extends Expr {
         this.left = left;
         this.op = op;
         this.right = right;
-        if (left.hasError || right.hasError)
-            this.hasError = true;
+        //this.hasError = false;
+//        if (left == null && right == null) {
+//            return;
+//        } else if (left == null) {
+//            if (right.hasError)
+//                this.hasError = true;
+//        } else if (right == null) {
+//            if (left.hasError)
+//                this.hasError = true;
+//        } else if (left.hasError || right.hasError)
+//            this.hasError = true;
+//        if (left.hasError || right.hasError)
+//            this.hasError = true;
     }
     @Override
     Object accept(ExprVisitor visitor) {
@@ -42,8 +53,8 @@ class ExpressionExpr extends Expr {
             lBracket = null;
             rBracket = null;
         }
-        if (expression.hasError)
-            this.hasError = true;
+//        if (expression.hasError)
+//            this.hasError = true;
     }
 
     @Override
@@ -132,7 +143,7 @@ class PrimaryExpr extends Expr {
     }
     @Override
     Object accept(ExprVisitor visitor) {
-        return null;
+        return visitor.visitPrimaryExpr(this);
     }
     final String value;
 }

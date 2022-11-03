@@ -90,9 +90,9 @@ public class Parser {
 
     Stmt expressionStatement() {
         ExpressionStmt expressionStmt = new ExpressionStmt(expression());
-        if (!expressionStmt.hasError) {
-            statements.add(expressionStmt);
-        }
+//        if (!expressionStmt.hasError) {
+//            statements.add(expressionStmt);
+//        }
         if (!match(TokenType.SEMICOLON)) {
             new Error(peek(), "expect ';' here");
         }
@@ -100,14 +100,14 @@ public class Parser {
     }
 
     Expr expression() {
-        Expr term = term();
-        while (match(TokenType.PLUS) || match(TokenType.MINUS)) {
-            Token op = getPrev();
-            Expr term2 = term();
-            term = new BinaryExpr(term, op, term2);
-        }
-        return term;
-        //return assignment();
+//        Expr term = term();
+//        while (match(TokenType.PLUS) || match(TokenType.MINUS)) {
+//            Token op = getPrev();
+//            Expr term2 = term();
+//            term = new BinaryExpr(term, op, term2);
+//        }
+//        return term;
+        return assignment();
     }
 
     Expr assignment() {
@@ -128,7 +128,7 @@ public class Parser {
 
     Expr condition() {
         Expr expr = logicOr();
-        //三目运算符待实现
+        //TODO 三目运算符待实现
         return expr;
     }
 
@@ -174,7 +174,7 @@ public class Parser {
     }
 
     Expr term() {
-        Expr factor = factor();
+        Expr expr = factor();
 //        while (match(TokenType.STAR) || match(TokenType.SLASH)) {
 //            Token op = getPrev();
 //            Expr factor2 = factor();
@@ -182,10 +182,10 @@ public class Parser {
 //        }
         while (match(TokenType.PLUS) || match(TokenType.MINUS)) {
             Token op = getPrev();
-            Expr factor2 = factor();
-            factor = new BinaryExpr(factor, op, factor2);
+            Expr right = factor();
+            expr = new BinaryExpr(expr, op, right);
         }
-        return factor;
+        return expr;
     }
 
     Expr factor() {
@@ -227,25 +227,23 @@ public class Parser {
     Expr primary() {
         if (match(TokenType.NUM) || match(TokenType.NONE)
         || match(TokenType.TRUE) || match(TokenType.FALSE)) {
-            return new PrimaryExpr(peek().word);
+            return new PrimaryExpr(getPrev().word);
         }
         if (match(TokenType.ID)) {
             return new VarExpr(getPrev());
         }
-        Expr expr = null;
         if (match(TokenType.LEFT_BRACKET)) {
-            expr = expression();
+            Expr expr = expression();
             if (match(TokenType.RIGHT_BRACKET)) {
                 //expr = new ExpressionExpr(expr, true);
             } else {
-                expr.hasError = true;
+                //expr.hasError = true;
                 new Error(peek(), "expect ')' here");
             }
-        } else {
-            expr.hasError = true;
-            new Error(peek(), "this is not a valid arithmetic expression");
+            return expr;
         }
-        new Error(peek(), "error expression");
+        //expr.hasError = true;
+        new Error(peek(), "this is not a valid arithmetic expression");
         return null;
     }
 
