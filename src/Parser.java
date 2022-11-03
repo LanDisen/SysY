@@ -90,9 +90,6 @@ public class Parser {
 
     Stmt expressionStatement() {
         ExpressionStmt expressionStmt = new ExpressionStmt(expression());
-//        if (!expressionStmt.hasError) {
-//            statements.add(expressionStmt);
-//        }
         if (!match(TokenType.SEMICOLON)) {
             new Error(peek(), "expect ';' here");
         }
@@ -100,13 +97,6 @@ public class Parser {
     }
 
     Expr expression() {
-//        Expr term = term();
-//        while (match(TokenType.PLUS) || match(TokenType.MINUS)) {
-//            Token op = getPrev();
-//            Expr term2 = term();
-//            term = new BinaryExpr(term, op, term2);
-//        }
-//        return term;
         return assignment();
     }
 
@@ -175,11 +165,6 @@ public class Parser {
 
     Expr term() {
         Expr expr = factor();
-//        while (match(TokenType.STAR) || match(TokenType.SLASH)) {
-//            Token op = getPrev();
-//            Expr factor2 = factor();
-//            factor = new BinaryExpr(factor, op, factor2);
-//        }
         while (match(TokenType.PLUS) || match(TokenType.MINUS)) {
             Token op = getPrev();
             Expr right = factor();
@@ -196,22 +181,6 @@ public class Parser {
             expr = new BinaryExpr(expr, op, right);
         }
         return expr;
-//        Expr expr = new NullExpr();
-//        if (match(TokenType.LEFT_BRACKET)) {
-//            expr = expression();
-//            if (match(TokenType.RIGHT_BRACKET)) {
-//                //expr = new ExpressionExpr(expr, true);
-//            } else {
-//                expr.hasError = true;
-//                new Error(peek(), "expect ')' here");
-//            }
-//        } else if (match(TokenType.NUM)) {
-//            expr = new NumberExpr(getPrev().word);
-//        } else {
-//            expr.hasError = true;
-//            new Error(peek(), "this is not a valid arithmetic expression");
-//        }
-//        return expr;
     }
 
     Expr unary() {
@@ -235,14 +204,12 @@ public class Parser {
         if (match(TokenType.LEFT_BRACKET)) {
             Expr expr = expression();
             if (match(TokenType.RIGHT_BRACKET)) {
-                //expr = new ExpressionExpr(expr, true);
+                //pass
             } else {
-                //expr.hasError = true;
                 new Error(peek(), "expect ')' here");
             }
             return expr;
         }
-        //expr.hasError = true;
         new Error(peek(), "this is not a valid arithmetic expression");
         return null;
     }
