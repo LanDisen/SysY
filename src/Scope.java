@@ -5,10 +5,11 @@ import java.util.HashMap;
  */
 public class Scope {
     HashMap<String, Object> symbolTable; //符号表
-    Scope enclosing;
+    private Scope enclosing = null;
 
     Scope() {
         enclosing = null;
+        symbolTable = new HashMap<>();
     }
 
     Scope(Scope enclosing) {
@@ -17,6 +18,15 @@ public class Scope {
 
     void define(final String name, final Object value) {
         symbolTable.put(name, value);
+    }
+
+    Scope parentScope(int distance) {
+        Scope scope = this;
+        while (distance > 0) {
+            scope = scope.enclosing;
+            distance--;
+        }
+        return scope;
     }
 
     void assign(Token name, Object value) {
@@ -32,7 +42,7 @@ public class Scope {
     }
 
     void assignHelp(int distance, final Token name, Object value) {
-        upward(distance).symbolTable.replace(name.word, value);
+        parentScope(distance).symbolTable.replace(name.word, value);
     }
 
     Object getValue(final Token name) {
@@ -45,15 +55,6 @@ public class Scope {
     }
 
     Object getValueHelp(int distance, final Token name) {
-        return upward(distance).symbolTable.get(name.word);
-    }
-
-    Scope upward(int distance) {
-        Scope scope = this;
-        while (distance > 0) {
-            scope = scope.enclosing;
-            distance--;
-        }
-        return scope;
+        return parentScope(distance).symbolTable.get(name.word);
     }
 }

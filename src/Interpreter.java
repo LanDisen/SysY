@@ -1,6 +1,11 @@
+import java.util.HashMap;
 import java.util.Vector;
 
 public class Interpreter implements ExprVisitor, StmtVisitor{
+    public Scope global = new Scope();
+    Scope thisScope = global;
+    HashMap<String, Object> locals = new HashMap<>();
+
     Interpreter(Vector<Stmt> statements) {
         this.statements = statements;
         interpret(statements);
@@ -18,6 +23,16 @@ public class Interpreter implements ExprVisitor, StmtVisitor{
 
     Object evaluate(final Expr expr) {
         return expr.accept(this);
+    }
+
+    Object executeBlock(final Vector<Stmt> statements, Scope scope) {
+        Scope previousScope = thisScope;
+        thisScope = scope;
+        for (Stmt stmt: statements) {
+            execute(stmt);
+        }
+        thisScope = previousScope;
+        return null;
     }
 
     String stringify(final Object obj) {
@@ -90,20 +105,6 @@ public class Interpreter implements ExprVisitor, StmtVisitor{
     }
 
     @Override
-    public Object visitUnaryExpr(UnaryExpr expr) {
-        Object right = evaluate(expr.value);
-        switch (expr.symbol.type) {
-            case MINUS -> {
-                return -(Double) right;
-            }
-            case EXCLAMATION -> {
-                return !isTrue(right);
-            }
-        }
-        return null;
-    }
-
-    @Override
     public Object visitVarExpr(VarExpr expr) {
         Object value = null;
 
@@ -127,6 +128,20 @@ public class Interpreter implements ExprVisitor, StmtVisitor{
     }
 
     @Override
+    public Object visitUnaryExpr(UnaryExpr expr) {
+        Object right = evaluate(expr.value);
+        switch (expr.symbol.type) {
+            case MINUS -> {
+                return -(Double) right;
+            }
+            case EXCLAMATION -> {
+                return !isTrue(right);
+            }
+        }
+        return null;
+    }
+
+    @Override
     public Object visitPrimaryExpr(PrimaryExpr expr) {
         return expr.value;
     }
@@ -142,6 +157,12 @@ public class Interpreter implements ExprVisitor, StmtVisitor{
         System.out.print(stringify(value));
         if (stmt.hasLn)
             System.out.print("\n");
+        return null;
+    }
+
+    @Override
+    public Object visitBlockStmt(BlockStmt stmt) {
+        executeBlock(stmt.statements, thisScope);
         return null;
     }
 

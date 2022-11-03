@@ -1,3 +1,5 @@
+import java.util.Vector;
+
 public abstract class Stmt {
     abstract Object accept(StmtVisitor visitor);
 }
@@ -32,6 +34,19 @@ class PrintStmt extends Stmt {
 
     final Expr expr;
     final boolean hasLn;
+}
+
+class BlockStmt extends Stmt {
+    BlockStmt(Vector<Stmt> statements) {
+        this.statements = statements;
+    }
+
+    @Override
+    Object accept(StmtVisitor visitor) {
+        return visitor.visitBlockStmt(this);
+    }
+
+    Vector<Stmt> statements;
 }
 
 class VarDeclStmt extends Stmt {
