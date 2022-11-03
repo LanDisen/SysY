@@ -37,8 +37,10 @@ public class Interpreter implements ExprVisitor, StmtVisitor{
     public Object visitBinaryExpr(BinaryExpr expr) {
         Object left = evaluate(expr.left);
         Object right = evaluate(expr.right);
-//        left = Double.parseDouble((String) left);
-//        right = Double.parseDouble((String) right);
+        if (left instanceof String)
+            left = Double.parseDouble((String) left);
+        if (right instanceof String)
+            right = Double.parseDouble((String) right);
         Token op = expr.op;
         switch (op.type) {
             case EQUAL_EQUAL -> {
