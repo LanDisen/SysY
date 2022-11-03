@@ -191,7 +191,7 @@ public class Interpreter implements ExprVisitor, StmtVisitor{
             return (Boolean) a == (Boolean) b;
         }
         if (a instanceof Double && b instanceof Double) {
-            return (Boolean) a == (Boolean) b;
+            return ((Double) a).equals((Double) b);
         }
         return false;
     }

@@ -1,0 +1,10 @@
+println(123>456);
+println(123>=123);
+println(123<456);
+println(123<=456);
+println(123!=456);
+println(123==456);
+println(100==100);
+println(20==30 || 10==10);
+println(20==30 && 10==10);
+println(20==20 && 10==10);

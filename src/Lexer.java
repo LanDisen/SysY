@@ -40,6 +40,26 @@ public class Lexer {
                 case '\\' -> tokens.add(new Token(TokenType.BACKSLASH, "\\", line, colomn++));
                 case '(' -> tokens.add(new Token(TokenType.LEFT_BRACKET, "(", line, colomn++));
                 case ')' -> tokens.add(new Token(TokenType.RIGHT_BRACKET, ")", line, colomn++));
+                case '|' -> {
+                    Token token = null;
+                    if (peek() == '|') {
+                        token = new Token(TokenType.OR, "||", line, colomn++);
+                        token.type = TokenType.OR;
+                        token.word = "||";
+                        moveForward();
+                    }
+                    tokens.add(token);
+                }
+                case '&' -> {
+                    Token token = null;
+                    if (peek() == '&') {
+                        token = new Token(TokenType.AND, "&&", line, colomn++);
+                        token.type = TokenType.AND;
+                        token.word = "||";
+                        moveForward();
+                    }
+                    tokens.add(token);
+                }
                 case '=' -> {
                     Token token = new Token(TokenType.EQUAL, "=", line, colomn++);
                     if (peek() == '=') {

@@ -23,13 +23,14 @@ import java.util.Vector;
  *              | ID
  *
  * 语句文法
- * declaration ->  varDecl
- *              |  statement
- * varDecl     ->  ("int"|"float") ID ("=" expression)? ";"
- * statement   ->  expressionStmt
- *              |  printStmt
- * printStmt   -> ("print"|“println“) "("expression")"
- *
+ * block           -> "{" declaration "}"
+ * declaration     ->  varDecl
+ *                  |  statement
+ * varDecl         ->  ("int"|"float") ID ("=" expression)? ";"
+ * statement       ->  expressionStmt
+ *                  |  printStmt
+ * printStmt       -> ("print"|“println“) "("expression")"
+ * expressionStmt  -> expression ";"
  */
 
 
@@ -144,7 +145,7 @@ public class Parser {
 
     Expr equality() {
         Expr expr = comparison();
-        while (match(TokenType.EQUAL_EQUAL)) {
+        while (match(TokenType.EQUAL_EQUAL) || match(TokenType.NOT_EQUAL)) {
             Token op = getPrev();
             Expr right = comparison();
             expr = new BinaryExpr(expr, op, right);
