@@ -53,7 +53,7 @@ public class Token {
 enum TokenType {
     PLUS, MINUS, STAR,
     SLASH, BACKSLASH, //斜杠，反斜杠
-    EQUAL, EQUAL_EQUAL,
+    EQUAL, EQUAL_EQUAL, NOT_EQUAL,
     GREATER, GREATER_EQUAL,
     LESS, LESS_EQUAL,
     //逗号，句点，冒号，问号，感叹号，分号

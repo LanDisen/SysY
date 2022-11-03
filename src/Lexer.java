@@ -59,7 +59,7 @@ public class Lexer {
                     tokens.add(token);
                 }
                 case '<' -> {
-                    Token token = new Token(TokenType.LESS, "<=>", line, colomn++);
+                    Token token = new Token(TokenType.LESS, "<", line, colomn++);
                     if (peek() == '=') {
                         token.type = TokenType.LESS_EQUAL;
                         token.word = "<=";
@@ -71,7 +71,15 @@ public class Lexer {
                 case '.' -> tokens.add(new Token(TokenType.DOT, ".", line, colomn++));
                 case ':' -> tokens.add(new Token(TokenType.COLON, ":", line, colomn++));
                 case '?' -> tokens.add(new Token(TokenType.QUESTION, "?", line, colomn++));
-                case '!' -> tokens.add(new Token(TokenType.EXCLAMATION, "!", line, colomn++));
+                case '!' -> {
+                    Token token = new Token(TokenType.EXCLAMATION, "!", line, colomn++);
+                    if (peek() == '=') {
+                        token.type = TokenType.NOT_EQUAL;
+                        token.word = "!=";
+                        moveForward();
+                    }
+                    tokens.add(token);
+                }
                 case ';' -> tokens.add(new Token(TokenType.SEMICOLON, ";", line, colomn++));
                 default -> {
                     if (isNewLine(c)) {
