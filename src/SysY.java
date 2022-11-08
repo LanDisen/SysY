@@ -5,7 +5,7 @@ import java.util.Scanner;
 
 public class SysY {
     public static void main(String[] args) {
-        run(new File("test\\testBoolean.txt"));
+        run(new File("test\\block.txt"));
         //runFile();
     }
 

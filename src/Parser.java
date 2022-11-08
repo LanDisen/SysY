@@ -43,7 +43,8 @@ public class Parser {
 
     void parse() {
         while (!isParseOver()) {
-            statements.add(statement());
+            //statements.add(statement());
+            statements.add(declaration());
         }
     }
 
@@ -67,6 +68,10 @@ public class Parser {
     Stmt statement() {
         if (match(TokenType.PRINT)) return printStatement();
         if (match(TokenType.PRINTLN)) return printStatement();
+        if (match(TokenType.IF)) return ifStatement();
+        if (match(TokenType.WHILE)) return whileStmt();
+        if (match(TokenType.FOR)) return forStmt();
+        if (match(TokenType.LEFT_BIG_BRACKET)) return new BlockStmt(block());
         return expressionStatement();
     }
 
@@ -88,6 +93,29 @@ public class Parser {
         if (!match(TokenType.SEMICOLON))
             new Error(peek(), "expect ';' here");
         return printStmt;
+    }
+
+    //TODO 控制语句待实现
+    Stmt ifStatement() {
+        return null;
+    }
+
+    Stmt whileStmt() {
+        return null;
+    }
+
+    Stmt forStmt() {
+        return null;
+    }
+
+    Vector<Stmt> block() {
+        Vector<Stmt> statements = new Vector<>();
+        while (!match(TokenType.RIGHT_BIG_BRACKET) && !isParseOver()) {
+            statements.add((declaration()));
+        }
+        if (isParseOver() && getPrev().type!=TokenType.RIGHT_BIG_BRACKET)
+            new Error(getPrev(), "expect '}' after a block");
+        return statements;
     }
 
     Stmt expressionStatement() {
@@ -212,7 +240,7 @@ public class Parser {
             }
             return expr;
         }
-        new Error(peek(), "this is not a valid arithmetic expression");
+        new Error(peek(), "this is not a legal expression");
         return null;
     }
 
