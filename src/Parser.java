@@ -11,8 +11,8 @@ import java.util.Vector;
  * expression  ->  assignment
  * assignment  ->  ID "=" assignment | condition
  * condition   ->  logicOr
- * logicOr    ->  logicAnd ("||" logicAnd)*
- * logicAnd   ->  equality ("&&" equality)*
+ * logicOr     ->  logicAnd ("||" logicAnd)*
+ * logicAnd    ->  equality ("&&" equality)*
  * equality    ->  comparison ( ("!="|"==") comparison)*
  * comparison  ->  term ( (">"|">="|"<"|"<=") term)*
  * term        ->  factor( ("+"|"-") factor)*
@@ -28,9 +28,10 @@ import java.util.Vector;
  *                  |  statement
  * varDecl         ->  ("int"|"float") ID ("=" expression)? ";"
  * statement       ->  expressionStmt
- *                  |  printStmt
- * printStmt       -> ("print"|“println“) "("expression")"
- * expressionStmt  -> expression ";"
+ *                  |  printStatement
+ *                  |  ifStatement
+ * printStmt       ->  ("print"|“println“) "("expression")"
+ * expressionStmt  ->  expression ";"
  */
 
 
