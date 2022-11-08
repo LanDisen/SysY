@@ -55,11 +55,18 @@ public class Parser {
         return statement();
     }
 
+    //TODO 变量声明定义待实现
     Stmt varDeclaration() {
         if (match(TokenType.ID)) {
             Token name = getPrev();
-            Expr expr = expression();
-            return new VarDeclStmt(name, expr);
+            if (match(TokenType.EQUAL)) {
+                Expr expr = expression();
+                if (!match(TokenType.SEMICOLON))
+                    new Error(peek(), "expect ';' here");
+                return new VarDeclStmt(name, expr);
+            }
+            if (!match(TokenType.SEMICOLON))
+                new Error(peek(), "expect ';' here");
         }
         new Error(peek(), "expect an identifier when declaration");
         return null;
