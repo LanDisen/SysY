@@ -45,6 +45,9 @@ public class Interpreter implements ExprVisitor, StmtVisitor{
         if (obj instanceof Double) {
             return String.valueOf((double) obj);
         }
+        if (obj instanceof String) {
+            return (String) obj;
+        }
         return null;
     }
 
@@ -86,7 +89,7 @@ public class Interpreter implements ExprVisitor, StmtVisitor{
                 return (Double)left * (Double)right;
             }
             case SLASH -> {
-                /*TODO ʵ�ֳ���Ϊ0�쳣�ж�
+                /*TODO 实现除数为0异常判断
                 double divideNum = (double) right;
                 if (divideNum == 0) {
                     new Error((Token) right, "can't divided by zero");
