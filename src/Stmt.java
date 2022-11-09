@@ -68,7 +68,7 @@ class VarDeclStmt extends Stmt {
 
     @Override
     public String toString() {
-        return name.word;
+        return name.word + '=' + expr.toString();
     }
 
     final Token name; //变量名

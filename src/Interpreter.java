@@ -4,7 +4,7 @@ import java.util.Vector;
 public class Interpreter implements ExprVisitor, StmtVisitor{
     public Scope global = new Scope();
     Scope thisScope = global;
-    HashMap<String, Object> locals = new HashMap<>();
+    HashMap<String, Object> localSymbolTable = new HashMap<>();
 
     Interpreter(Vector<Stmt> statements) {
         this.statements = statements;
@@ -47,6 +47,9 @@ public class Interpreter implements ExprVisitor, StmtVisitor{
         }
         if (obj instanceof String) {
             return (String) obj;
+        }
+        if (obj instanceof Expr) {
+            return obj.toString();
         }
         return null;
     }
@@ -109,14 +112,22 @@ public class Interpreter implements ExprVisitor, StmtVisitor{
 
     @Override
     public Object visitVarExpr(VarExpr expr) {
-        Object value = null;
-
-        return null;
+        Object value = thisScope.getValue(expr.name);
+        return value;
     }
 
     @Override
     public Object visitAssignExpr(AssignExpr expr) {
-        return null;
+        Object value = evaluate(expr.value);
+        Object id = thisScope.getValue(expr.name);
+        //local scope没有该变量
+        if (id == null) {
+            //localSymbolTable.put(expr.name.word, value);
+            thisScope.define(expr.name.word, value);
+        } else {
+            thisScope.assign(expr.name, value);
+        }
+        return value;
     }
 
     @Override
@@ -174,6 +185,8 @@ public class Interpreter implements ExprVisitor, StmtVisitor{
         Object value = null;
         if (stmt.expr != null) {
             value = evaluate(stmt.expr);
+            //localSymbolTable.put(stmt.name.word, stmt.expr);
+            thisScope.define(stmt.name.word, value);
         }
         return value;
     }
