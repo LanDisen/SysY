@@ -32,6 +32,13 @@ class PrintStmt extends Stmt {
         return visitor.visitPrintStmt(this);
     }
 
+    @Override
+    public String toString() {
+        String str = hasLn ? "print(" : "println(";
+        str += expr.toString() + ")";
+        return str;
+    }
+
     final Expr expr;
     final boolean hasLn;
 }
@@ -59,6 +66,11 @@ class VarDeclStmt extends Stmt {
         return visitor.visitVarDeclStmt(this);
     }
 
+    @Override
+    public String toString() {
+        return name.word;
+    }
+
     final Token name; //变量名
     final Expr expr;
 }
@@ -74,6 +86,12 @@ class IfStmt extends Stmt {
         return visitor.visitIfStmt(this);
     }
 
+    @Override
+    public String toString() {
+        String str = "if(" + condition + ")";
+        return str;
+    }
+
     final Expr condition;
     final Stmt thenStmt;
     final Stmt elseStmt;
@@ -87,6 +105,12 @@ class WhileStmt extends Stmt {
     @Override
     Object accept(StmtVisitor visitor) {
         return visitor.visitWhileStmt(this);
+    }
+
+    @Override
+    public String toString() {
+        String str = "while(" + condition + ")";
+        return str;
     }
 
     Expr condition;

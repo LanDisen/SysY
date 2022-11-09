@@ -65,6 +65,13 @@ class UnaryExpr extends Expr {
         this.symbol = symbol;
         this.value = value;
     }
+
+    @Override
+    public String toString() {
+        String str = symbol==null ? "" : symbol.word;
+        return str + value.toString();
+    }
+
     @Override
     Object accept(ExprVisitor visitor) {
         return visitor.visitUnaryExpr(this);
@@ -78,15 +85,18 @@ class VarExpr extends Expr {
     VarExpr(Token name) {
         this.name = name;
     }
-    @Override
-    Object accept(ExprVisitor visitor) {
-        return visitor.visitVarExpr(this);
-    }
-    final Token name;
+
     @Override
     public String toString() {
         return name.word;
     }
+
+    @Override
+    Object accept(ExprVisitor visitor) {
+        return visitor.visitVarExpr(this);
+    }
+
+    final Token name;
 }
 
 class AssignExpr extends Expr {
@@ -98,6 +108,12 @@ class AssignExpr extends Expr {
     @Override
     Object accept(ExprVisitor visitor) {
         return visitor.visitAssignExpr(this);
+    }
+
+    @Override
+    public String toString() {
+        String str = name.word + "=" + value;
+        return str;
     }
 
     final Token name;
@@ -116,6 +132,11 @@ class LogicalExpr extends Expr {
         return visitor.visitLogicalExpr(this);
     }
 
+    @Override
+    public String toString() {
+        return left.toString() + op.word + right.toString();
+    }
+
     final Expr left;
     final Token op;
     final Expr right;
@@ -129,5 +150,11 @@ class PrimaryExpr extends Expr {
     Object accept(ExprVisitor visitor) {
         return visitor.visitPrimaryExpr(this);
     }
+
+    @Override
+    public String toString() {
+        return value;
+    }
+
     final String value;
 }
