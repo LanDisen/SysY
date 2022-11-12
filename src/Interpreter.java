@@ -193,6 +193,11 @@ public class Interpreter implements ExprVisitor, StmtVisitor{
 
     @Override
     public Object visitIfStmt(IfStmt stmt) {
+        if (isTrue(stmt.condition)) {
+            execute(stmt.thenStmt);
+        } else {
+            execute(stmt.elseStmt);
+        }
         return null;
     }
 

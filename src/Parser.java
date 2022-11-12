@@ -104,7 +104,17 @@ public class Parser {
 
     //TODO 控制语句待实现
     Stmt ifStatement() {
-        return null;
+        if (!match(TokenType.LEFT_BRACKET))
+            new Error(peek(), "expect '(' after 'if' statement");
+        Expr condition = condition();
+        if (!match(TokenType.RIGHT_BRACKET))
+            new Error(peek(), "expect ')' after 'if' here");
+        Stmt thenStmt = statement();
+        Stmt elseStmt = null;
+        if (match(TokenType.ELSE)) {
+            elseStmt = statement();
+        }
+        return new IfStmt(condition, thenStmt, elseStmt);
     }
 
     Stmt whileStmt() {

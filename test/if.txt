@@ -1,0 +1,17 @@
+if (10 > 5) {
+    println(1);
+} else {
+    println(0);
+}
+
+if (123 < 456) {
+    println(123);
+} else {
+    println(456);
+}
+
+if (1+2+3+4+5<=10) {
+    println(12345);
+} else {
+    println(0);
+}
