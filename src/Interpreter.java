@@ -43,6 +43,9 @@ public class Interpreter implements ExprVisitor, StmtVisitor{
             return (Boolean) obj ? "true": "false";
         }
         if (obj instanceof Double) {
+            if ((Double) obj - ((Double) obj).intValue() < 1e-8) {
+                return String.valueOf(((Double) obj).intValue());
+            }
             return String.valueOf((double) obj);
         }
         if (obj instanceof String) {
