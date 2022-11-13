@@ -41,10 +41,6 @@ public class Scope {
         new Error(name, "undefined variable " + name.word);
     }
 
-    void assignHelp(int distance, final Token name, Object value) {
-        parentScope(distance).symbolTable.replace(name.word, value);
-    }
-
     Object getValue(final Token name) {
         Object value = symbolTable.get(name.word);
         if (value != null) {
@@ -55,9 +51,5 @@ public class Scope {
         }
         new Error(name, "undefined variable " + name.word);
         return null;
-    }
-
-    Object getValueHelp(int distance, final Token name) {
-        return parentScope(distance).symbolTable.get(name.word);
     }
 }
