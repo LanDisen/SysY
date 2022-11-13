@@ -18,10 +18,12 @@ public class Interpreter implements ExprVisitor, StmtVisitor{
     }
 
     Object execute(final Stmt stmt) {
+        if (stmt == null) return "None";
         return stmt.accept(this);
     }
 
     Object evaluate(final Expr expr) {
+        if (expr == null) return "None";
         return expr.accept(this);
     }
 

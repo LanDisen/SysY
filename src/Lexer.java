@@ -36,7 +36,15 @@ public class Lexer {
                 case '+' -> tokens.add(new Token(TokenType.PLUS, "+", line, colomn++));
                 case '-' -> tokens.add(new Token(TokenType.MINUS, "-", line, colomn++));
                 case '*' -> tokens.add(new Token(TokenType.STAR, "*", line, colomn++));
-                case '/' -> tokens.add(new Token(TokenType.SLASH, "/", line, colomn++));
+                case '/' -> {
+                    // 注释
+                    if (peek() == '/') {
+                        do {moveForward(); } while (peek() != '\n' && !isScanOver());
+                        line++;
+                        continue;
+                    }
+                    tokens.add(new Token(TokenType.SLASH, "/", line, colomn++));
+                }
                 case '\\' -> tokens.add(new Token(TokenType.BACKSLASH, "\\", line, colomn++));
                 case '(' -> tokens.add(new Token(TokenType.LEFT_BRACKET, "(", line, colomn++));
                 case ')' -> tokens.add(new Token(TokenType.RIGHT_BRACKET, ")", line, colomn++));
