@@ -63,6 +63,7 @@ public class Interpreter implements ExprVisitor, StmtVisitor{
         if (right instanceof String)
             right = Double.parseDouble((String) right);
         Token op = expr.op;
+        //System.out.println("(" + ")"); //中间代码
         switch (op.type) {
             case EQUAL_EQUAL -> {
                 return isEqual(left, right);
@@ -176,7 +177,7 @@ public class Interpreter implements ExprVisitor, StmtVisitor{
 
     @Override
     public Object visitBlockStmt(BlockStmt stmt) {
-        executeBlock(stmt.statements, thisScope);
+        executeBlock(stmt.statements, new Scope(thisScope));
         return null;
     }
 
@@ -186,14 +187,14 @@ public class Interpreter implements ExprVisitor, StmtVisitor{
         if (stmt.expr != null) {
             value = evaluate(stmt.expr);
             //localSymbolTable.put(stmt.name.word, stmt.expr);
-            thisScope.define(stmt.name.word, value);
         }
+        thisScope.define(stmt.name.word, value);
         return value;
     }
 
     @Override
     public Object visitIfStmt(IfStmt stmt) {
-        if (isTrue(stmt.condition)) {
+        if (isTrue(evaluate(stmt.condition))) {
             execute(stmt.thenStmt);
         } else {
             execute(stmt.elseStmt);

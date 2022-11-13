@@ -4,12 +4,11 @@ import java.util.HashMap;
  * 作用域类
  */
 public class Scope {
-    HashMap<String, Object> symbolTable; //符号表
+    HashMap<String, Object> symbolTable = new HashMap<>();; //符号表
     private Scope enclosing = null;
 
     Scope() {
         enclosing = null;
-        symbolTable = new HashMap<>();
     }
 
     Scope(Scope enclosing) {

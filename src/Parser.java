@@ -102,7 +102,6 @@ public class Parser {
         return printStmt;
     }
 
-    //TODO 控制语句待实现
     Stmt ifStatement() {
         if (!match(TokenType.LEFT_BRACKET))
             new Error(peek(), "expect '(' after 'if' statement");
