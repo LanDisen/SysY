@@ -1,12 +1,17 @@
 println(1);
 println(2);
+/*
 //println(3);
 //println(4);
 println(5);
 println(6);
+*/
 //if (1<2) {
 //  println(666);
 //}
+
+/*
 if (1>2) println(10);
 else if (4>3) println(20);
 else println(30);
+*/

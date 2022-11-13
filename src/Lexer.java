@@ -37,10 +37,8 @@ public class Lexer {
                 case '-' -> tokens.add(new Token(TokenType.MINUS, "-", line, colomn++));
                 case '*' -> tokens.add(new Token(TokenType.STAR, "*", line, colomn++));
                 case '/' -> {
-                    // 注释
-                    if (peek() == '/') {
-                        do {moveForward(); } while (peek() != '\n' && !isScanOver());
-                        line++;
+                    if (peek() == '/' || peek() == '*') {
+                        commont(); // 注释
                         continue;
                     }
                     tokens.add(new Token(TokenType.SLASH, "/", line, colomn++));
@@ -155,6 +153,27 @@ public class Lexer {
 
     char moveForward() {
         return src.charAt(curr++);
+    }
+
+    void commont() {
+        if (peek() == '/') {
+            do {moveForward(); } while (peek() != '\n' && !isScanOver());
+            line++;
+        } else if (peek() == '*') {
+            while (!isScanOver()) {
+                if (peek() == '*') {
+                    moveForward();
+                    if (moveForward() == '/') break;
+                } else if (peek() == '\n') {
+                    moveForward();
+                    line++;
+                    continue;
+                } else {
+                    moveForward();
+                    continue;
+                }
+            }
+        }
     }
 
     void identifier() {
