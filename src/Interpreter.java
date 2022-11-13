@@ -204,6 +204,9 @@ public class Interpreter implements ExprVisitor, StmtVisitor{
 
     @Override
     public Object visitWhileStmt(WhileStmt stmt) {
+        while (isTrue(evaluate(stmt.condition))) {
+            execute(stmt.body);
+        }
         return null;
     }
 

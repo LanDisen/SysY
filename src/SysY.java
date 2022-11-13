@@ -5,7 +5,7 @@ import java.util.Scanner;
 
 public class SysY {
     public static void main(String[] args) {
-        run(new File("test\\ifScope.txt"));
+        run(new File("test\\while.txt"));
         //runFile();
     }
 

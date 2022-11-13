@@ -36,6 +36,7 @@ public class Scope {
         }
         if (enclosing != null) {
             enclosing.assign(name, value);
+            return;
         }
         new Error(name, "undefined variable " + name.word);
     }
@@ -48,6 +49,9 @@ public class Scope {
         Object value = symbolTable.get(name.word);
         if (value != null) {
             return value;
+        }
+        if (enclosing != null) {
+            return enclosing.getValue(name);
         }
         new Error(name, "undefined variable " + name.word);
         return null;

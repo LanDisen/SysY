@@ -117,7 +117,13 @@ public class Parser {
     }
 
     Stmt whileStmt() {
-        return null;
+        if (!match(TokenType.LEFT_BRACKET))
+            new Error(peek(), "expect '(' after 'while' statement");
+        Expr condition = condition();
+        if (!match(TokenType.RIGHT_BRACKET))
+            new Error(peek(), "expect ')' after 'while' here");
+        Stmt body = statement();
+        return new WhileStmt(condition, body);
     }
 
     Stmt forStmt() {
