@@ -38,7 +38,7 @@ public class Lexer {
                 case '*' -> tokens.add(new Token(TokenType.STAR, "*", line, colomn++));
                 case '/' -> {
                     if (peek() == '/' || peek() == '*') {
-                        commont(); // 注释
+                        comment(); // 注释
                         continue;
                     }
                     tokens.add(new Token(TokenType.SLASH, "/", line, colomn++));
@@ -158,10 +158,9 @@ public class Lexer {
         return src.charAt(curr++);
     }
 
-    void commont() {
+    void comment() {
         if (peek() == '/') {
             do {moveForward(); } while (peek() != '\n' && !isScanOver());
-            line++;
         } else if (peek() == '*') {
             while (!isScanOver()) {
                 if (peek() == '*') {
