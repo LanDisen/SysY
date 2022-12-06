@@ -169,11 +169,15 @@ public class Lexer {
                 } else if (peek() == '\n') {
                     moveForward();
                     line++;
+                    colomn = 0;
                     continue;
                 } else {
                     moveForward();
                     continue;
                 }
+            }
+            if (isScanOver()) {
+                new Error(line, colomn, "missing terminated \"*/\" part");
             }
         }
     }
