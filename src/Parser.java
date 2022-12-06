@@ -49,13 +49,12 @@ public class Parser {
     }
 
     Stmt declaration() {
-        if (match(TokenType.INT) || match(TokenType.FLOAT)) {
+        if (match(TokenType.INT) || match(TokenType.FLOAT) || match(TokenType.STRING)) {
             return varDeclaration(); //temp
         }
         return statement();
     }
 
-    //TODO 变量声明定义待实现
     Stmt varDeclaration() {
         if (match(TokenType.ID)) {
             Token name = getPrev();
@@ -246,7 +245,7 @@ public class Parser {
     }
 
     Expr primary() {
-        if (match(TokenType.NUM) || match(TokenType.NONE)
+        if (match(TokenType.NUM) || match(TokenType.NONE) || match(TokenType.STRING)
         || match(TokenType.TRUE) || match(TokenType.FALSE)) {
             return new PrimaryExpr(getPrev().word);
         }

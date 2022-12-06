@@ -111,6 +111,9 @@ public class Lexer {
                     tokens.add(token);
                 }
                 case ';' -> tokens.add(new Token(TokenType.SEMICOLON, ";", line, colomn++));
+                case '"' -> {
+                    string();
+                }
                 default -> {
                     if (isNewLine(c)) {
                         line++; colomn = 0; break;
@@ -197,6 +200,23 @@ public class Lexer {
         }
         String word = src.substring(begin, curr);
         TokenType type = TokenType.NUM;
+        tokens.add(new Token(type, word, line, colomn++));
+    }
+
+    void string() {
+        moveForward();
+        while (!isScanOver() && peek() != '"') {
+            if (peek() == '\n') {
+                new Error(line, colomn, "missing terminated '\"' character");
+            }
+            moveForward();
+        }
+        if (isScanOver()) {
+            new Error(line, colomn, "missing terminated '\"' character");
+        }
+        moveForward();
+        String word = src.substring(begin+1, curr-1);
+        TokenType type = TokenType.STRING;
         tokens.add(new Token(type, word, line, colomn++));
     }
 
