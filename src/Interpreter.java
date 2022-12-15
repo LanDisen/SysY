@@ -68,7 +68,7 @@ public class Interpreter implements ExprVisitor, StmtVisitor{
             try {
                 left = Double.parseDouble((String) left);
             } catch (NumberFormatException e) {
-                new Error(expr.op, "can not operate on string and number");
+                new Error(expr.op, "'" + expr.op.word +"can not operate on string and number");
             }
         }
         if (right instanceof String) {
