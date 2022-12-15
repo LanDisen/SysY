@@ -66,6 +66,8 @@ public class Parser {
             }
             if (!match(TokenType.SEMICOLON))
                 new Error(peek(), "expect ';' here");
+        } else if (match(TokenType.STRING)) {
+            // pass
         }
         new Error(peek(), "expect an identifier when declaration");
         return null;

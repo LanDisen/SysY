@@ -1,3 +1,4 @@
+import java.text.ParseException;
 import java.util.HashMap;
 import java.util.Vector;
 
@@ -63,10 +64,20 @@ public class Interpreter implements ExprVisitor, StmtVisitor{
     public Object visitBinaryExpr(BinaryExpr expr) {
         Object left = evaluate(expr.left);
         Object right = evaluate(expr.right);
-        if (left instanceof String)
-            left = Double.parseDouble((String) left);
-        if (right instanceof String)
-            right = Double.parseDouble((String) right);
+        if (left instanceof String) {
+            try {
+                left = Double.parseDouble((String) left);
+            } catch (NumberFormatException e) {
+                new Error(expr.op, "can not operate on string and number");
+            }
+        }
+        if (right instanceof String) {
+            try {
+                right = Double.parseDouble((String) right);
+            } catch (NumberFormatException e) {
+                new Error(expr.op, "'" + expr.op.word + "' can not operate on string and number");
+            }
+        }
         Token op = expr.op;
         //System.out.println("(" + ")"); //中间代码
         switch (op.type) {
