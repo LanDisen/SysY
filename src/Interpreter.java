@@ -119,13 +119,10 @@ public class Interpreter implements ExprVisitor, StmtVisitor{
                 return (Double)left * (Double)right;
             }
             case SLASH -> {
-                /*TODO 实现除数为0异常判断
                 double divideNum = (double) right;
                 if (divideNum == 0) {
-                    new Error((Token) right, "can't divided by zero");
-                    return null;
+                    new Error(expr.op, "can't divided by zero");
                 }
-                 */
                 return (double)left / (double)right;
             }
         }
