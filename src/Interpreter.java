@@ -1,18 +1,20 @@
-import org.junit.jupiter.api.Test;
-
-import java.text.ParseException;
 import java.util.HashMap;
 import java.util.Vector;
 
+@SuppressWarnings({"all"})
 public class Interpreter implements ExprVisitor, StmtVisitor{
     public Scope global = new Scope();
     Scope thisScope = global;
     HashMap<String, Object> localSymbolTable = new HashMap<>();
+    Vector<Stmt> statements;
+    static int temp = 1; //临时变量
     int line = 0;
+    Vector<Quadruple> codes = new Vector<>();
 
     Interpreter(Vector<Stmt> statements) {
         this.statements = statements;
         interpret(statements);
+        printCodes(); //打印中间代码
     }
 
     void interpret(final Vector<Stmt> statements) {
@@ -82,7 +84,12 @@ public class Interpreter implements ExprVisitor, StmtVisitor{
             }
         }
         Token op = expr.op;
-        //System.out.println("(" + ")"); //中间代码
+        if (temp == 1) {
+            gen(++line, op.word, stringify(left), stringify(right), "t" + String.valueOf(temp++)); //中间代码
+        }
+        else {
+            gen(++line, op.word, "t" + String.valueOf(temp-1), stringify(right), "t" + String.valueOf(temp++)); //中间代码
+        }
         switch (op.type) {
             case EQUAL_EQUAL -> {
                 return isEqual(left, right);
@@ -140,6 +147,7 @@ public class Interpreter implements ExprVisitor, StmtVisitor{
     public Object visitAssignExpr(AssignExpr expr) {
         Object value = evaluate(expr.value);
         Object id = thisScope.getValue(expr.name);
+        //System.out.println(inCode(++line, ":=", "-", ));
         //local scope没有该变量
         if (id == null) {
             //localSymbolTable.put(expr.name.word, value);
@@ -147,6 +155,7 @@ public class Interpreter implements ExprVisitor, StmtVisitor{
         } else {
             thisScope.assign(expr.name, value);
         }
+        gen(++line, ":=", stringify(value), "_", expr.name.word);
         return value;
     }
 
@@ -166,9 +175,11 @@ public class Interpreter implements ExprVisitor, StmtVisitor{
         Object right = evaluate(expr.value);
         switch (expr.symbol.type) {
             case MINUS -> {
+                gen(++line, "-", "_", "_", stringify(right));
                 return -(Double) right;
             }
             case EXCLAMATION -> {
+                gen(++line, "not", "_", "_", stringify(right));
                 return !isTrue(right);
             }
         }
@@ -208,12 +219,15 @@ public class Interpreter implements ExprVisitor, StmtVisitor{
             //localSymbolTable.put(stmt.name.word, stmt.expr);
         }
         thisScope.define(stmt.name.word, value);
+        gen(++line, ":=", "-", stringify(value), stmt.name.word);
         return value;
     }
 
     @Override
     public Object visitIfStmt(IfStmt stmt) {
-        if (isTrue(evaluate(stmt.condition))) {
+        int flag = 1;
+        if (isTrue(evaluate(stmt.condition))) flag = 0;
+        if (flag == 1) {
             execute(stmt.thenStmt);
         } else {
             execute(stmt.elseStmt);
@@ -249,17 +263,41 @@ public class Interpreter implements ExprVisitor, StmtVisitor{
     /**
      * 中间代码，四元式形式
      */
-    public String inCode(int line, String op, String a, String b, String c) {
+    void emit(Quadruple code) {
         String str = "[";
-        str += String.format("%3d", line);
-        str += "] ( ";
-        str += String.format("%3s", op) + ", ";
-        str += String.format("%3s", a) + ", ";
-        str += String.format("%3s", b) + ", ";
-        str += String.format("%3s", c);
-        str += " )";
-        return str;
+        str += String.format("%4d", code.line);
+        str += "] (";
+        str += String.format("%4s", code.op) + ",";
+        str += String.format("%4s", code.arg1) + ",";
+        str += String.format("%4s", code.arg2) + ",";
+        str += String.format("%4s", code.result);
+        str += ")";
+        System.out.println(str);
     }
 
-    Vector<Stmt> statements;
+    void gen(int line, String op, String arg1, String arg2, String result) {
+        codes.add(new Quadruple(line, op, arg1, arg2, result));
+    }
+
+    void printCodes() {
+        for (Quadruple code: codes)
+            emit(code);
+    }
+}
+
+//四元式
+class Quadruple {
+    public Quadruple(int line, String op, String arg1, String arg2, String result) {
+        this.line = line;
+        this.op = op;
+        this.arg1 = arg1;
+        this.arg2 = arg2;
+        this.result = result;
+    }
+
+    public int line;
+    public String op;
+    public String arg1;
+    public String arg2;
+    public String result;
 }
