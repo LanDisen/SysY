@@ -26,7 +26,7 @@ import java.util.Vector;
  * block           -> "{" declaration "}"
  * declaration     ->  varDecl
  *                  |  statement
- * varDecl         ->  ("int"|"float") ID ("=" expression)? ";"
+ * varDecl         ->  ("int"|"float"|“string”) ID ("=" expression)? ";"
  * statement       ->  expressionStmt
  *                  |  printStatement
  *                  |  ifStatement
