@@ -1,3 +1,5 @@
+import org.junit.jupiter.api.Test;
+
 import java.text.ParseException;
 import java.util.HashMap;
 import java.util.Vector;
@@ -6,6 +8,7 @@ public class Interpreter implements ExprVisitor, StmtVisitor{
     public Scope global = new Scope();
     Scope thisScope = global;
     HashMap<String, Object> localSymbolTable = new HashMap<>();
+    int line = 0;
 
     Interpreter(Vector<Stmt> statements) {
         this.statements = statements;
@@ -241,6 +244,21 @@ public class Interpreter implements ExprVisitor, StmtVisitor{
         if (obj == null) return false;
         if (obj instanceof Boolean) return (Boolean) obj;
         return true;
+    }
+
+    /**
+     * 中间代码，四元式形式
+     */
+    public String inCode(int line, String op, String a, String b, String c) {
+        String str = "[";
+        str += String.format("%3d", line);
+        str += "] ( ";
+        str += String.format("%3s", op) + ", ";
+        str += String.format("%3s", a) + ", ";
+        str += String.format("%3s", b) + ", ";
+        str += String.format("%3s", c);
+        str += " )";
+        return str;
     }
 
     Vector<Stmt> statements;
